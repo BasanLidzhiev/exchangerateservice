@@ -18,7 +18,7 @@ exc_app_id - id https://openexchangerates.org/ API
 
 gif_app_id - id https://developers.giphy.com/dashboard/ API 
 
-base - валюта с которой сравниваем
+currency - валюта с которой сравниваем
 
 P.S. 
 С 00:00 до 09:00 сервис работать не будет
