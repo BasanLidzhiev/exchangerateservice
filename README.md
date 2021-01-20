@@ -7,12 +7,12 @@
 
 После сборки и запуска проекта в адресной строке браузера введите: 
 
-http://localhost:8080/?exc_app_id=YOUR_EXC_APP_ID&gif_app_id=YOUR_GIF_APP_ID&base=RUB
+http://localhost:8080/?exc_app_id=YOUR_EXC_APP_ID&gif_app_id=YOUR_GIF_APP_ID&currency=USD
 
 
 Например: 
 
-http://localhost:8080/?exc_app_id=b81b7ba8b8da4d2fbbbe062831ca171e&gif_app_id=rblojEMNbDdBuJhwoqqM64OevRPAyuUo&base=RUB
+http://localhost:8080/?exc_app_id=b81b7ba8b8da4d2fbbbe062831ca171e&gif_app_id=rblojEMNbDdBuJhwoqqM64OevRPAyuUo&currency=USD
 
 exc_app_id - id https://openexchangerates.org/ API
 
