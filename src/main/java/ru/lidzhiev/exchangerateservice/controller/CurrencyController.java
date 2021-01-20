@@ -46,12 +46,12 @@ public class CurrencyController {
     }
 
     private String getToday() {
-        LocalDateTime today = LocalDateTime.now().minusDays(1);
+        LocalDateTime today = LocalDateTime.now();
         return format1.format(today);
     }
 
     private String getYesterday() {
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(2);
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
         return format1.format(yesterday);
     }
     
