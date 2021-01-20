@@ -18,8 +18,10 @@ class CurrencyControllerTest {
 
     @Test
     void getAllCurrencies() throws Exception {
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/?app_id=b81b7ba8b8da4d2fbbbe062831ca171e&base=RUB")).andReturn();
-        Assert.assertEquals(200, result.getResponse().getStatus());
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get(
+                "/?exc_app_id=b81b7ba8b8da4d2fbbbe062831ca171e&gif_app_id=rblojEMNbDdBuJhwoqqM64OevRPAyuUo&currency=USD"))
+                .andReturn();
+        Assert.assertEquals(302, result.getResponse().getStatus());
     }
 
 

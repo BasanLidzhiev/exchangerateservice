@@ -10,6 +10,7 @@ import ru.lidzhiev.exchangerateservice.client.CurrencyClient;
 import ru.lidzhiev.exchangerateservice.client.GifClient;
 import ru.lidzhiev.exchangerateservice.entity.Currency;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -30,11 +31,11 @@ public class CurrencyController {
 
 
     @GetMapping
-    public ModelAndView getGif(@RequestParam String exc_app_id, @RequestParam String gif_app_id, @RequestParam String base) throws JSONException {
-        Currency todayRate = currencyClient.getHistoricalRate(getToday(), exc_app_id, base);
-        Currency yesterdayRate = currencyClient.getHistoricalRate(getYesterday(), exc_app_id, base);
+    public ModelAndView getGif(@RequestParam String exc_app_id, @RequestParam String gif_app_id, @RequestParam String currency) throws JSONException {
+        Currency todayRate = currencyClient.getHistoricalRate(getToday(), exc_app_id, "RUB");
+        Currency yesterdayRate = currencyClient.getHistoricalRate(getYesterday(), exc_app_id, "RUB");
         JSONObject object;
-        if (todayRate.getRates().get(base) > yesterdayRate.getRates().get(base)) {
+        if (todayRate.getRates().get(currency) > yesterdayRate.getRates().get(currency)) {
             object = new JSONObject(gifClient.getGif(gif_app_id, "rich", 25).getBody());
         } else {
             object = new JSONObject(gifClient.getGif(gif_app_id, "broke", 25).getBody());
@@ -45,12 +46,12 @@ public class CurrencyController {
     }
 
     private String getToday() {
-        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime today = LocalDateTime.now().minusDays(1);
         return format1.format(today);
     }
 
     private String getYesterday() {
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(2);
         return format1.format(yesterday);
     }
     
