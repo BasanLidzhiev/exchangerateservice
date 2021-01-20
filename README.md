@@ -12,3 +12,6 @@ http://localhost:8080/?exc_app_id=YOUR_EXC_APP_ID&gif_app_id=YOUR_GIF_APP_ID&bas
 Например: 
 
 http://localhost:8080/?exc_app_id=b81b7ba8b8da4d2fbbbe062831ca171e&gif_app_id=rblojEMNbDdBuJhwoqqM64OevRPAyuUo&base=RUB
+
+P.S. 
+С 00:00 до 09:00 сервис работать не будет
