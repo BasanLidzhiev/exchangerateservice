@@ -11,7 +11,7 @@ http://localhost:8080/?exc_app_id=YOUR_EXC_APP_ID&gif_app_id=YOUR_GIF_APP_ID&cur
 
 Например: 
 
-http://localhost:8080/?exc_app_id=b81b7ba8b8da4d2fbbbe062831ca171e&gif_app_id=rblojEMNbDdBuJhwoqqM64OevRPAyuUo&currency=USD
+http://localhost:8080/?exc_app_id=49db3a50dbe246e0ba14dac085273174&gif_app_id=rblojEMNbDdBuJhwoqqM64OevRPAyuUo&currency=USD
 
 exc_app_id - https://openexchangerates.org/account/app-ids API id
 
