@@ -1,58 +1,39 @@
 package ru.lidzhiev.exchangerateservice.controller;
 
+import feign.FeignException;
 import org.json.JSONException;
-import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-import ru.lidzhiev.exchangerateservice.client.CurrencyClient;
-import ru.lidzhiev.exchangerateservice.client.GifClient;
-import ru.lidzhiev.exchangerateservice.entity.Currency;
+import ru.lidzhiev.exchangerateservice.service.CurrencyService;
 
 import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Random;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
-@RestController
+@Controller
 public class CurrencyController {
-    private final CurrencyClient currencyClient;
-    private final GifClient gifClient;
+    private final CurrencyService service;
+    private Map<String, Object> data = new HashMap<>();
 
-    private final DateTimeFormatter format1 = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-    private final Random random = new Random();
-
-    public CurrencyController(CurrencyClient currencyClient, GifClient gifClient) {
-        this.currencyClient = currencyClient;
-        this.gifClient = gifClient;
+    public CurrencyController(CurrencyService service) {
+        this.service = service;
     }
-
 
     @GetMapping
-    public ModelAndView getGif(@RequestParam String exc_app_id, @RequestParam String gif_app_id, @RequestParam String currency) throws JSONException {
-        Currency todayRate = currencyClient.getHistoricalRate(getToday(), exc_app_id, "RUB");
-        Currency yesterdayRate = currencyClient.getHistoricalRate(getYesterday(), exc_app_id, "RUB");
-        JSONObject object;
-        if (todayRate.getRates().get(currency) > yesterdayRate.getRates().get(currency)) {
-            object = new JSONObject(gifClient.getGif(gif_app_id, "rich", 25).getBody());
-        } else {
-            object = new JSONObject(gifClient.getGif(gif_app_id, "broke", 25).getBody());
+    public ResponseEntity<String> getGif(@RequestParam String exc_app_id, @RequestParam String gif_app_id, @RequestParam String currency,
+                         HttpServletResponse response) throws JSONException, IOException {
+        try {
+            response.sendRedirect(service.getGif(exc_app_id, gif_app_id, currency).getUrl());
+            return null;
+        } catch (FeignException exception) {
+            data.put("exception", exception);
+            return new ResponseEntity<>(exception.getMessage(),HttpStatus.resolve(exception.status()));
+        } catch (NullPointerException exception) {
+            return new ResponseEntity<>("Invalid currency code", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ModelAndView("redirect:" + object.getJSONArray("data").getJSONObject(random.nextInt(25)).
-                getJSONObject("images").getJSONObject("original").getString("mp4"));
-
     }
-
-    private String getToday() {
-        LocalDateTime today = LocalDateTime.now();
-        return format1.format(today);
-    }
-
-    private String getYesterday() {
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
-        return format1.format(yesterday);
-    }
-    
 }

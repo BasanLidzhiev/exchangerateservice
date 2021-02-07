@@ -1,6 +1,7 @@
 package ru.lidzhiev.exchangerateservice.client;
 
 
+import feign.FeignException;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,5 +12,5 @@ import ru.lidzhiev.exchangerateservice.entity.Currency;
 public interface CurrencyClient {
 
     @GetMapping("/{date}.json")
-    public Currency getHistoricalRate(@PathVariable String date, @RequestParam String app_id, @RequestParam String base);
+    Currency getHistoricalRate(@PathVariable String date, @RequestParam String app_id, @RequestParam String base) throws FeignException;
 }
