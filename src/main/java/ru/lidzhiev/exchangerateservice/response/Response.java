@@ -14,4 +14,8 @@ public class Response {
         this.errorMessage = errorMessage;
         this.status = status;
     }
+
+    public Response(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
 }

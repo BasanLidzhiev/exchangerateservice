@@ -26,7 +26,7 @@ public class CurrencyService {
         this.gifClient = gifClient;
     }
 
-    public Response getGifUrl(String exc_app_id, String gif_app_id, String currency) throws JSONException, FeignException {
+    public Response getGif(String exc_app_id, String gif_app_id, String currency) throws JSONException, FeignException, NullPointerException  {
             Currency todayRate = currencyClient.getHistoricalRate(getToday(), exc_app_id, "RUB");
             Currency yesterdayRate = currencyClient.getHistoricalRate(getYesterday(), exc_app_id, "RUB");
             JSONObject object;
@@ -36,7 +36,7 @@ public class CurrencyService {
                 object = new JSONObject(gifClient.getGif(gif_app_id, "broke", 25).getBody());
             }
             return new Response(object.getJSONArray("data").getJSONObject(random.nextInt(25)).
-                    getJSONObject("images").getJSONObject("original").getString("mp4"), "", 200);
+                    getJSONObject("images").getJSONObject("original").getString("url"), "", 200);
 
     }
 
